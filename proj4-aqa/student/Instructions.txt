@@ -1,0 +1,86 @@
+/*
+    This file should contain all functions that are necessary to change to complete
+    the project. Per the requirements given in the specification online you are
+    welcome to change, add, or remove other code as well although this file is
+    an attempt to organize the necessary for you. Please read this entire file before
+    you begin working. You likely want to produce changes in the following order
+
+    1. Improve the efficiency of the code by modifying structures and calls:
+
+        - Are there inefficient structures?
+
+        - Are there inefficient function calls?
+
+        - Could code be reorganized?
+
+    2. Perform loop unrolling:
+
+        - Which loops should you unroll?
+
+        - How might you need to rewrite the code to enable loop unrolling?
+
+    3. Perform SIMD operations with Intel intrinsics:
+
+        - Which functions is it worthwhile to do this for?
+
+            Try parsing the code to see if you can tell what sizes look like.
+
+        - Where is the logic simple enough to use intrinsics
+
+    4. Use Openmp:
+
+        -Where will it be most beneficial to parallelize?
+
+
+    While it is definitely beneficial to understand the code it is not necessary
+    to completely understand the details. Truthfully this may not even be possible
+    as in some cases (such as the sigma value for the gaussian filter) the values
+    passed in lack theoretical proof and are just shown to work well with test/should
+    be determined after testing. Your goal should be to understand what each step is doing,
+    meaning the inputs (where and when can it be called) and outputs and what those will be 
+    needed for in the future.
+
+    As a side note because different parameters will satisify different images better, the
+    png lib has to convert the png to a grayscale image using default parameters, the code
+    that this is adapted from is written for a different file type and makes some different
+    assumptions (see the comments in ced.c for this original code) there is definite room
+    for improvement in accuracy. See the details in the spec for exactly how improvements
+    to the accuracy of the algorithms and send me an email njriasanovsky@berkeley.edu
+    if there are any issues or questions (such as something more accurate being rejected
+    as being incorrect.)
+*/
+
+/*
+    This function interacts with ced.c to perform the canny_edge_detection algorithm
+    on the src file.
+
+    First it opens each of the files and exits if either is not able to be opened.
+
+    Then it setups the read and determines how many rows the file has.
+
+    This allows it allocate mem to perform the actual read, which is then
+    executed.
+
+    At this point the write will be setup and the actual algorithm begins.
+
+    It consists of 4 steps:
+
+    1. Apply a gaussian filter to the read data via a convolution to remove
+    an initial noise.
+
+    2. Calculate the intensity gradient using two known matrices and performing
+    a convolution on them. This will be used to determine angles of pixels for
+    future steps.
+
+    3. Perform non-maximal supression on the pixels. This means that for each pixel
+    determine the angle of its gradient: either 0, 45, 90, or 135. This is initially
+    implemented in the previous step. If the pixel is the maximum of its neightbors
+    in this direction then the pixel should remain, otherwise it should be supressed.
+
+    4. Finalize the edges using hysteresis. This consists of using a minimum and a maximum,
+    if the value of the pixel is larger than the maximum it is definitely an edge. If it is
+    larger than the minimum it may be an edge but should only be considered as such if it
+    neighbors an edge.
+
+    Finally once these are complete the actual write will be performed.
+*/
