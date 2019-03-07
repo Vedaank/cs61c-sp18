@@ -1,0 +1,9 @@
+1. run [arglist]
+2. break ... if
+3. step [count]
+4. step [count]
+5. c
+6. print
+7. display
+8. print
+9. quit
