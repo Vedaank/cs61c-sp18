@@ -1,0 +1,8 @@
+TESTING INSTRUCTIONS:
+
+To run the tests we provided you, type './run-sanity-check.sh' from your project folder.
+This will copy your alu.circ and regfile.circ into the 'tests' folder and then run the tests.
+
+To see what happened during a test, you can go to tests and open the .circ files.
+These are harnesses that are modified to have testing inputs in them.
+You can tick the clock and see the outputs of your ALU, and compare them to what you would expect.

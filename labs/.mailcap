@@ -1,0 +1,2 @@
+application/postscript; gsview %s
+application/x-psgz; gsview %s
